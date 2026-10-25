@@ -1,0 +1,6 @@
+{
+  "name": "All Pro Appliance Repair",
+  "description": "Residential household appliance repair and diagnostics in San Jose, CA (581 Race St, 95126) and nearby Santa Clara Valley cities. Call (213) 659-0021.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

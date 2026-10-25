@@ -1,0 +1,59 @@
+# ==============================================================================
+# All Pro Appliance Repair (https://allproappliancerepair.store)
+# Production Apache (.htaccess) Configuration for Hostinger / cPanel Hosting
+# ==============================================================================
+# Purpose:
+#   Routes clean public URLs (e.g., /about/, /services/refrigerator-repair/,
+#   /service-areas/primary-service-city/, /contact/) to the single-file
+#   index.html application while allowing real static root files (such as
+#   /robots.txt, /sitemap.xml, and image assets) to be served directly.
+# ==============================================================================
+
+Options -MultiViews -Indexes
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Force HTTPS and non-www canonical domain in production
+  # Uncomment the 4 lines below once SSL is active on allproappliancerepair.store:
+  # RewriteCond %{HTTPS} !=on [OR]
+  # RewriteCond %{HTTP_HOST} ^www\.allproappliancerepair\.store$ [NC]
+  # RewriteRule ^ https://allproappliancerepair.store%{REQUEST_URI} [R=301,L]
+
+  # 2. Redirect explicit /index.html requests to clean root /
+  RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  # 3. Serve existing physical files (e.g., robots.txt, sitemap.xml, images) directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 4. Route all clean application paths to index.html
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Proper MIME types and UTF-8 charset
+AddDefaultCharset UTF-8
+<IfModule mod_mime.c>
+  AddType text/xml .xml
+  AddType image/svg+xml .svg
+</IfModule>
+
+# Browser caching for performance
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/xml "access plus 1 hour"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+</IfModule>
+
+# Basic security headers
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

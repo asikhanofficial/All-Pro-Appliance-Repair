@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Production XML Sitemap for All Pro Appliance Repair
+# Note: Update service-area URLs in sitemap.xml if slugs are renamed after primary city verification.
+Sitemap: https://allproappliancerepair.store/sitemap.xml
